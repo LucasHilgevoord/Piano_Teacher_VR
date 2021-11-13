@@ -37,6 +37,7 @@ namespace PianoTeacher.Piano
         };
 
         [Header("Customization")]
+        [SerializeField] private bool useCalibratedResizing = true;
         [SerializeField] private float volume = 1;
         [SerializeField] private int octaveFactor = 0;
         [SerializeField] private PianoTimbres timbre;
@@ -50,6 +51,9 @@ namespace PianoTeacher.Piano
             CreateKeys();
         }
 
+        /// <summary>
+        /// Method to create the keys of the piano
+        /// </summary>
         private void CreateKeys()
         {
             int keyPitch = ((int)startingKeyPitch) - 1;
@@ -64,28 +68,35 @@ namespace PianoTeacher.Piano
                 currentKey++;
                 if (currentKey > _keyLayout.Length - 1) { currentKey = 0; }
 
+                // Starting values
                 int keyType = _keyLayout[currentKey];
-
                 GameObject keyPrefab;
                 KeyAccidentals accidental;
                 Vector3 pos = Vector3.zero;
+                Vector3 scale = Vector3.zero;
 
                 switch (keyType)
                 {
                     case 0:
                     default:
+                        // Create a white key
                         keyPitch++;
                         if (keyPitch > pitchLenght - 1) { keyPitch = 0; }
 
                         keyPrefab = keyPrefabs.whiteKey;
                         accidental = KeyAccidentals.None;
+                        scale = whiteKeyScale;
 
+                        // Set the correct position to spawn on
                         if (i != 0) { pos.x = GetPreviousWhiteKey(i).transform.position.x + whiteKeyScale.x + keyOffset; }
                         break;
                     case 1:
+                        // Create a black key
                         keyPrefab = keyPrefabs.blackKey;
                         accidental = KeyAccidentals.Sharp;
+                        scale = blackKeyScale;
 
+                        // Set the correct position to spawn on
                         if (i != 0) { pos.x = _keys[i - 1].transform.position.x + whiteKeyScale.x / 2; }
                         pos.z = pos.z + (whiteKeyScale.z - blackKeyScale.z) / 2;
                         break;
@@ -94,6 +105,7 @@ namespace PianoTeacher.Piano
                 GameObject keyObj = Instantiate(keyPrefab, pos, Quaternion.identity, keyParent);
                 Key key = keyObj.GetComponent<Key>();
                 key.Setup((KeyPitches)keyPitch, accidental, 0);
+                key.SetScale(scale);
                 _keys.Add(key);
 
                 keyObj.name = "Key_" + ((KeyPitches)keyPitch).ToString() + accidentalSymbols[key.Accidental];
@@ -101,6 +113,11 @@ namespace PianoTeacher.Piano
             }
         }
 
+        /// <summary>
+        /// Method to find a white key that has been created before the assigned index
+        /// </summary>
+        /// <param name="myIndex">Index to start searching on</param>
+        /// <returns>Previous white key</returns>
         private Key GetPreviousWhiteKey(int myIndex)
         {
             for (int i = myIndex - 1; i >= 0; i--)
@@ -115,6 +132,11 @@ namespace PianoTeacher.Piano
             return null;
         }
 
+        /// <summary>
+        /// Method to find which key the piano should start with in the array of _keyLayout
+        /// </summary>
+        /// <param name="pitch">The pitch that the piano should start with</param>
+        /// <returns>The index of the keytype</returns>
         private int GetStartingKeyIndex(KeyPitches pitch)
         {
             int keyIndex = -1;

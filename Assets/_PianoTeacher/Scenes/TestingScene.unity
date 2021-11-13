@@ -339,6 +339,36 @@ MonoBehaviour:
   m_AreaLightEmissiveMeshShadowCastingMode: 0
   m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
   m_AreaLightEmissiveMeshLayer: -1
+--- !u!1 &327972303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 327972304}
+  m_Layer: 0
+  m_Name: Keys
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &327972304
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327972303}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1676982677}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &509675536
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,6 +621,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1676982677}
   - component: {fileID: 1676982678}
+  - component: {fileID: 1676982679}
   m_Layer: 0
   m_Name: PianoManager
   m_TagString: Untagged
@@ -608,7 +639,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 327972304}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -626,15 +658,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyCount: 61
   startingKeyPitch: 0
+  keyParent: {fileID: 327972304}
   whiteKeyScale: {x: 0.2, y: 0.1, z: 1}
   blackKeyScale: {x: 0.1, y: 0.2, z: 0.6}
   keyOffset: 0.025
+  useCalibratedResizing: 1
   volume: 0
-  octave: 0
+  octaveFactor: 0
   timbre: 0
   keyPrefabs:
     whiteKey: {fileID: 717786509829127209, guid: c9c5a0e54724369458400046fc566fbb, type: 3}
     blackKey: {fileID: 3420194094516697793, guid: 931dcfe303c1cd44cb0480f58fb59ed6, type: 3}
+--- !u!114 &1676982679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676982676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc20be1cd35c8044b0de396e90beb1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1728935686
 GameObject:
   m_ObjectHideFlags: 0
