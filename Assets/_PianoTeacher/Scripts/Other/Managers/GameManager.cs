@@ -8,7 +8,7 @@ namespace PianoTeacher
     public class GameManager : MonoBehaviour
     {
         [Header("Managers")]
-        [SerializeField] private PianoManager pianoManager;
+        [SerializeField] private PianoManager _pianoManager;
 
         [Header("Modes")]
         [SerializeField] private object displayManager; // Not yet implemented
@@ -17,7 +17,7 @@ namespace PianoTeacher
         // Start is called before the first frame update
         void Start()
         {
-            pianoManager.CreatePiano();
+            _pianoManager.Initialize();
         }
     }
 }
