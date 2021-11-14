@@ -23,6 +23,7 @@ namespace PianoTeacher.Piano
         [SerializeField] private KeyPitches _startingKeyPitch;
         [SerializeField] private Transform _pianoParent;
         [SerializeField] private Transform _keyParent;
+        private Vector3 _startingPos = Vector3.zero;
         private int[] _keyLayout = {0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0};
         private List<Key> _keys;
 
@@ -72,6 +73,7 @@ namespace PianoTeacher.Piano
             PianoCalibrator.CalibrationComplete -= OnCalibrationComplete;
 
             // Assign the calibration values
+            _startingPos = calibration.startPos;
             _angle = calibration.angle;
             _whiteKeyScale.x = calibration.whiteKeyScaleX;
             _blackKeyScale.x = calibration.blackKeyScaleX;
@@ -86,8 +88,8 @@ namespace PianoTeacher.Piano
         private void CreatePiano()
         {
             CreateKeys();
+            _pianoParent.position = _startingPos;
             SetPianoRotation();
-            
         }
 
         /// <summary>
@@ -112,7 +114,7 @@ namespace PianoTeacher.Piano
                 GameObject keyPrefab;
                 KeyAccidentals accidental;
                 Vector3 pos = Vector3.zero;
-                Vector3 scale = Vector3.zero;
+                Vector3 scale;
 
                 switch (keyType)
                 {
@@ -141,6 +143,10 @@ namespace PianoTeacher.Piano
                         break;
                 }
 
+                // Add an offset so that the key will be anchored at the bottom
+                pos.z += _whiteKeyScale.z / 2;
+
+                // Create the key
                 GameObject keyObj = Instantiate(keyPrefab, pos, Quaternion.identity, _keyParent);
                 Key key = keyObj.GetComponent<Key>();
                 key.Setup((KeyPitches)keyPitch, accidental, 0);

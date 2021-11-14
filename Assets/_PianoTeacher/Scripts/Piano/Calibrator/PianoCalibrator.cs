@@ -89,7 +89,7 @@ namespace PianoTeacher.Piano
             float blackKeyScaleX = whiteScaleX * 0.75f;
 
             // Set data
-            CalibrationData data = new CalibrationData(angle, whiteKeyScaleX, blackKeyScaleX);
+            CalibrationData data = new CalibrationData(_leftMarkedPos, angle, whiteKeyScaleX, blackKeyScaleX);
             Debug.Log("Calibrator: Calibration complete!");
             CalibrationComplete?.Invoke(data);
         }

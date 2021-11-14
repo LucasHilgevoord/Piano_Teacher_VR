@@ -9,12 +9,14 @@ namespace PianoTeacher.Piano
     /// </summary>
     public class CalibrationData
     {
+        public Vector3 startPos;
         public double angle;
         public float whiteKeyScaleX;
         public float blackKeyScaleX;
 
-        public CalibrationData(double angle, float whiteKeyScaleX, float blackKeyScaleX)
+        public CalibrationData(Vector3 startPos, double angle, float whiteKeyScaleX, float blackKeyScaleX)
         {
+            this.startPos = startPos;
             this.angle = angle;
             this.whiteKeyScaleX = whiteKeyScaleX;
             this.blackKeyScaleX = blackKeyScaleX;
