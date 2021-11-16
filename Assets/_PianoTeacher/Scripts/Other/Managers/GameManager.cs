@@ -1,6 +1,5 @@
+using PianoTeacher.Display;
 using PianoTeacher.Piano;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace PianoTeacher
@@ -11,13 +10,14 @@ namespace PianoTeacher
         [SerializeField] private PianoManager _pianoManager;
 
         [Header("Modes")]
-        [SerializeField] private object displayManager; // Not yet implemented
-        [SerializeField] private object sheetManager; // Not yet implemented
+        [SerializeField] private DisplayManager _displayManager;
+        [SerializeField] private object _sheetManager; // Not yet implemented
 
         // Start is called before the first frame update
         void Start()
         {
             _pianoManager.Initialize();
+            _displayManager.Initialize(Vector3.zero, Vector3.zero, 0);
         }
     }
 }

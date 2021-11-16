@@ -46,7 +46,7 @@ namespace PianoTeacher.Piano
         [SerializeField] private bool _useCalibrator = true;
         [SerializeField] private PianoKeyPrefab _keyPrefabs;
         [SerializeField] private float _volume = 1;
-        [SerializeField] private int _octaveFactor = 0;
+        [SerializeField] private int _octaveOffset = 0;
         [SerializeField] private PianoTimbres _timbre;
 
         /// <summary>
