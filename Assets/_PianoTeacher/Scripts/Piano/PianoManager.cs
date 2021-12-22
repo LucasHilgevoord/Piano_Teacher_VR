@@ -34,7 +34,7 @@ namespace PianoTeacher.Piano
         [SerializeField] private double _angle;
 
         [Header("Symbols")]
-        private Dictionary<KeyAccidentals, char> accidentalSymbols = new Dictionary<KeyAccidentals, char>()
+        private Dictionary<KeyAccidentals, char> _accidentalSymbols = new Dictionary<KeyAccidentals, char>()
         {
             {KeyAccidentals.None, '\0'},
             {KeyAccidentals.Natural, '\u266E'},
@@ -153,7 +153,7 @@ namespace PianoTeacher.Piano
                 key.SetScale(scale);
                 _keys.Add(key);
 
-                keyObj.name = "Key_" + ((KeyPitches)keyPitch).ToString() + accidentalSymbols[key.Accidental];
+                keyObj.name = "Key_" + ((KeyPitches)keyPitch).ToString() + _accidentalSymbols[key.Accidental];
             }
         }
 
@@ -239,5 +239,37 @@ namespace PianoTeacher.Piano
 
             return keyCount;
         }
+
+        /// <summary>
+        /// Get the width/height of the piano
+        /// </summary>
+        /// <returns>Vector2(width, height)</returns>
+        public Vector2 GetPianoSize()
+        {
+            float width = (this._whiteKeyScale.x + _keyOffset) * GetKeyCount().x - _keyOffset;
+            float height = this._whiteKeyScale.z;
+            return new Vector2(width, height);
+        }
+
+        /// <summary>
+        /// Get the keys which have been created
+        /// </summary>
+        /// <returns>Array of keys</returns>
+        internal Key[] GetKeys() { return _keys.ToArray(); }
+
+        /// <summary>
+        /// Get the most left and top position of the first key
+        /// </summary>
+        /// <returns></returns>
+        internal Vector3 GetFirstKeyPosition() 
+        {
+            Vector3 pos = _pianoParent.position;
+            double angle = (-_pianoParent.eulerAngles.y + 90) * Math.PI / 180;
+            pos.x = (float)(_whiteKeyScale.z * Math.Cos(angle)) - (_whiteKeyScale.x / 2);
+            pos.z = (float)(_whiteKeyScale.z * Math.Sin(angle));
+            return pos;
+        }
+
+        internal Vector3 GetPianoRotation() { return _pianoParent.eulerAngles; }
     }
 }

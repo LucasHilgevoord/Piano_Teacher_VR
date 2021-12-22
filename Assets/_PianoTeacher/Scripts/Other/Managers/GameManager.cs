@@ -6,8 +6,8 @@ namespace PianoTeacher
 {
     public class GameManager : MonoBehaviour
     {
-        [Header("Managers")]
         [SerializeField] private PianoManager _pianoManager;
+        [SerializeField] private MidiController _midiController;
 
         [Header("Modes")]
         [SerializeField] private DisplayManager _displayManager;
@@ -17,7 +17,7 @@ namespace PianoTeacher
         void Start()
         {
             _pianoManager.Initialize();
-            _displayManager.Initialize(Vector3.zero, Vector3.zero, 0);
+            _displayManager.Initialize();
         }
     }
 }

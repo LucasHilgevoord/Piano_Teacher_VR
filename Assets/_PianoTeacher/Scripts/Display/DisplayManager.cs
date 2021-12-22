@@ -1,3 +1,5 @@
+using MidiPlayerTK;
+using PianoTeacher.Piano;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,53 +9,55 @@ namespace PianoTeacher.Display
 {
     public class DisplayManager : MonoBehaviour
     {
+        [SerializeField] private PianoManager _pianoManager;
+        [SerializeField] private MidiController _midiController;
+
+        [Header("Canvas")]
         [SerializeField] private Canvas _noteDisplay;
-
-        [Header("Customization")]
-        [SerializeField] private bool _usePresetValues = false;
-        [SerializeField] private float _noteSpeed;
-
-        // Canvas
-        [SerializeField] private Vector3 _startPos;
         [SerializeField] private float _canvasAngle;
-        [SerializeField] private Vector2 _canvasScale;
-        [SerializeField] private Vector3 _whiteKeyScale;
-        [SerializeField] private int _totalWhiteKeys;
-        internal void Initialize(Vector3 startPos, Vector3 whiteKeyScale, int totalWhiteKeys)
-        {
-            if (!_usePresetValues)
-            {
-                _startPos = startPos;
-                _whiteKeyScale = whiteKeyScale;
-                _totalWhiteKeys = totalWhiteKeys;
-            }
 
+        [Header("Display")]
+        [SerializeField] private float _noteSpeed;
+        [SerializeField] DisplayNote notePrefab;
+        private List<DisplayNote> _activeNotes;
+
+        [Header("Preset")]
+        [SerializeField] private bool _usePresetValues = false;
+
+        private void Awake()
+        {
+            _midiController.OnNoteCreated += CreateDisplayKey;
+        }
+
+        internal void Initialize()
+        {
             SetupCanvas();
         }
 
         private void SetupCanvas()
         {
-            _startPos.x -= _whiteKeyScale.x / 2;
-            _startPos.z += _whiteKeyScale.z;
-            _noteDisplay.transform.position = _startPos;
-
             RectTransform rect =_noteDisplay.GetComponent<RectTransform>();
-            if (!_usePresetValues)
-            {
-                float width = _whiteKeyScale.x * _totalWhiteKeys + (_whiteKeyScale.x * 1.5f);
-                _canvasScale = new Vector2(width, width);
-            }
+            Vector2 pianoSize = _pianoManager.GetPianoSize();
 
-            rect.sizeDelta = _canvasScale;
+            // Set the size of the canvas
+            float width = pianoSize.x;
+            rect.sizeDelta = new Vector2(width, width / 2); // TODO: Custom height
 
+            // Set the position of the canvas
+            _noteDisplay.transform.position = _pianoManager.GetFirstKeyPosition();
 
-            // Set angle
-            float deg = (float)(-_canvasAngle * 180 / Math.PI);
-            Quaternion rotation = Quaternion.Euler(deg, 0, 0);
-            _noteDisplay.transform.rotation = rotation;
+            // Set the rotation of the canvas to match the rotation of the piano
+            Vector3 rot = _pianoManager.GetPianoRotation();
+            rot.x += _canvasAngle;
+            _noteDisplay.transform.eulerAngles = rot;
         }
 
-        private void SetAngle()
+        private void CreateDisplayKey(MPTKEvent note)
+        {
+            Debug.Log("NOTE CREATED: " + note);
+        }
+
+        private void UpdateDisplayKeys()
         {
 
         }
