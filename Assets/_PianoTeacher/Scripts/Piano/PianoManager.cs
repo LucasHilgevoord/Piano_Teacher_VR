@@ -24,7 +24,10 @@ namespace PianoTeacher.Piano
         [SerializeField] private Transform _pianoParent;
         [SerializeField] private Transform _keyParent;
         private Vector3 _startingPos = Vector3.zero;
+
         private int[] _keyLayout = {0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0};
+        public int[] KeyLayout { get { return _keyLayout; } }
+
         private List<Key> _keys;
 
         [Header("Scaling")]
@@ -46,7 +49,8 @@ namespace PianoTeacher.Piano
         [SerializeField] private bool _useCalibrator = true;
         [SerializeField] private PianoKeyPrefab _keyPrefabs;
         [SerializeField] private float _volume = 1;
-        [SerializeField] private int _octaveOffset = 0;
+        [SerializeField, Range(-3, 3)] private int _octaveOffset = 0;
+        public int OctaveOffset { get { return _octaveOffset; } }
         [SerializeField] private PianoTimbres _timbre;
 
         /// <summary>
@@ -270,6 +274,10 @@ namespace PianoTeacher.Piano
             return pos;
         }
 
+        /// <summary>
+        /// Get the rotation of the piano
+        /// </summary>
+        /// <returns></returns>
         internal Vector3 GetPianoRotation() { return _pianoParent.eulerAngles; }
     }
 }

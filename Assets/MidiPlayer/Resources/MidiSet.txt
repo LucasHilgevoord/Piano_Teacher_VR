@@ -56,6 +56,7 @@
     <string>Genesis - OneForTheVine</string>
     <string>Higelin Jacques - Champagne</string>
     <string>John Lee Hooker - Boom Boom Boom</string>
+    <string>John Legend - All of Me - EASY</string>
     <string>kakariko</string>
     <string>ladolcevita</string>
     <string>Leo Ferre - Avec le temps</string>
@@ -90,6 +91,7 @@
     <string>Satie - Gymnopedie 1</string>
     <string>Satie - Gymnopedie 2</string>
     <string>Satie - Trois Gnossiennes</string>
+    <string>scale_c_major</string>
     <string>Sibelius - Finlandia</string>
     <string>Sibelius - Romance</string>
     <string>Take 5 - by Paul Desmond</string>

@@ -37,6 +37,10 @@ public class MidiController : MonoBehaviour
         _midiFilePlayer.OnEventEndPlayMidi.AddListener(OnEndPlay);
     }
 
+    /// <summary>
+    /// Method after a midi song has started
+    /// </summary>
+    /// <param name="midiName">Name of the midi file</param>
     private void OnStartPlay(string midiName)
     {
         Debug.Log(midiName);
@@ -47,23 +51,31 @@ public class MidiController : MonoBehaviour
     /// are playing by the MIDI synthesizer (if 'Send To Synth' is enabled)
     /// </summary>
     /// <param name="notes"></param>
-    private void OnMidiEvent(List<MPTKEvent> notes)
+    private void OnMidiEvent(List<MPTKEvent> ev)
     {
         //Debug.Log("Creating new note batch: " + notes.Count);
 
-        // Create new notes
-        foreach (MPTKEvent note in notes)
+        foreach (MPTKEvent note in ev)
         {
-            //Debug.Log("Create note! " + note);
-            OnNoteCreated?.Invoke(note);
+            //Debug.Log("Created note! " + note);
+
+            // Create new notes
+            if (note.Command == MPTKCommand.NoteOn)
+                OnNoteCreated?.Invoke(note);
         }
     }
 
-    internal void PlayNote(MPTKEvent note)
-    {
-        _midiStreamPlayer.MPTK_PlayEvent(note);
-    }
+    /// <summary>
+    /// Play a note through the midi stream
+    /// </summary>
+    /// <param name="note"></param>
+    internal void PlayNote(MPTKEvent note) { _midiStreamPlayer.MPTK_PlayEvent(note); }
 
+    /// <summary>
+    /// Method after a midi song has ended
+    /// </summary>
+    /// <param name="midiName">Name of the midi file</param>
+    /// <param name="ev">Event</param>
     private void OnEndPlay(string midiName, EventEndMidiEnum ev)
     {
         Debug.Log(midiName);
