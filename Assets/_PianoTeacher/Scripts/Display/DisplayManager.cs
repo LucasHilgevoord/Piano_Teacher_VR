@@ -27,8 +27,10 @@ namespace PianoTeacher.Display
         [Header("Preset")]
         [SerializeField] private Color _displayColor;
         private float midiVelocity;
-        private float noteVelocity = 0.00001f;
-        private float noteDuration = 0.00013f;
+
+        //TODO: Figure ot a cleaner way
+        private float noteVelocity = 0.0015f;
+        private float noteDuration = 0.000058f;
 
         /// <summary>
         /// Initialize the display manager
@@ -104,7 +106,7 @@ namespace PianoTeacher.Display
                 if (!note.isActiveAndEnabled) continue;
 
                 // Move the note down
-                note.MoveNote(Vector3.down * (midiVelocity * noteVelocity));
+                note.MoveNote(Vector3.down * ((midiVelocity * noteVelocity) * Time.deltaTime));
 
                 // Check the state of the note
                 if (note.IsPlayed && note.Rect.anchoredPosition.y < -_noteCanvasRect.rect.height)
