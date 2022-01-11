@@ -15,6 +15,9 @@ namespace PianoTeacher
         [SerializeField] private DisplayManager _displayManager;
         [SerializeField] private object _sheetManager; // Not yet implemented
 
+        [Header("Customization")]
+        [SerializeField] private Color _color;
+
         private void Awake()
         {
             _midiController.OnNoteCreated += OnNoteCreated;
