@@ -10,4 +10,5 @@ EditorBuildSettings:
     guid: 3db1837cc97a95e4c98610966fac2b0b
   m_configObjects:
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 5910881e1820d7d42b2f0ff455b37a97, type: 2}
+    com.unity.xr.magicleap.magic_leap_settings: {fileID: 11400000, guid: 11983e0ece26cb14aacab4815fadafce, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c53fa583f7a0bfe46b6d189301ecd10d, type: 2}
