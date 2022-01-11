@@ -10,8 +10,9 @@ namespace PianoTeacher.Display
     {
         public MPTKEvent data;
 
+        private Image _img;
         private RectTransform _rect;
-        public RectTransform Rect { get { return _rect; } }
+        public RectTransform Rect => _rect;
         [SerializeField] private Text _noteLabel;
 
         private bool _isPlayed;
@@ -20,6 +21,7 @@ namespace PianoTeacher.Display
         private void Awake()
         {
             _rect = GetComponent<RectTransform>();
+            _img = GetComponent<Image>();
         }
 
         /// <summary>
@@ -56,7 +58,9 @@ namespace PianoTeacher.Display
         /// <summary>
         /// Set text of the note label to the corresponding note
         /// </summary>
-        internal void SetNoteLabel(string t) { _noteLabel.text = t; }
+        internal void SetLabel(string t) { _noteLabel.text = t; }
+
+        internal void SetColor(Color c) { _img.color = c; }
 
         /// <summary>
         /// Despawn the note to be re-used again

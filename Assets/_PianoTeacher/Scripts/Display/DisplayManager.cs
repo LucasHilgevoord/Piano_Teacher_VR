@@ -15,6 +15,7 @@ namespace PianoTeacher.Display
         [Header("Canvas")]
         [SerializeField] private Canvas _noteCanvas;
         private RectTransform _noteCanvasRect;
+
         [SerializeField] private float _canvasAngle;
         [SerializeField] private Transform _noteParent;
 
@@ -24,11 +25,10 @@ namespace PianoTeacher.Display
         private List<DisplayNote> _activeNotes;
 
         [Header("Preset")]
+        [SerializeField] private Color _displayColor;
+        private float midiVelocity;
         private float noteVelocity = 0.00001f;
         private float noteDuration = 0.00013f;
-
-        //[SerializeField, Range(0, 1), Tooltip("Determines if the note scaling is using scale or speed as reference, or a mix in between")] 
-        //private float _match = 0.5f;
 
         /// <summary>
         /// Initialize the display manager
@@ -82,10 +82,14 @@ namespace PianoTeacher.Display
             DisplayNote note = Instantiate(_notePrefab, _noteParent);
 
             note.data = ev;
-            note.SetScale(width, ev.Duration * noteDuration);
+            note.SetScale(width, (ev.Duration * noteDuration) * 2);
             note.SetPosition(xPos, note.GetHeight());
-            note.SetNoteLabel(""); //TODO: Set key
+            note.SetLabel(""); //TODO: Set key
+            note.SetColor(_displayColor);
             _activeNotes.Add(note);
+
+            // Set the velocity to the velocity of the first note to keep a constant velocity
+            midiVelocity = note.data.Velocity;
         }
 
         /// <summary>
@@ -100,7 +104,7 @@ namespace PianoTeacher.Display
                 if (!note.isActiveAndEnabled) continue;
 
                 // Move the note down
-                note.MoveNote(Vector3.down * (note.data.Velocity * noteVelocity));
+                note.MoveNote(Vector3.down * (midiVelocity * noteVelocity));
 
                 // Check the state of the note
                 if (note.IsPlayed && note.Rect.anchoredPosition.y < -_noteCanvasRect.rect.height)

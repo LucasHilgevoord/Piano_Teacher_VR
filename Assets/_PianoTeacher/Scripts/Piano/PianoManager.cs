@@ -26,7 +26,7 @@ namespace PianoTeacher.Piano
         private Vector3 _startingPos = Vector3.zero;
 
         private int[] _keyLayout = {0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0};
-        public int[] KeyLayout { get { return _keyLayout; } }
+        public int[] KeyLayout => _keyLayout;
 
         private List<Key> _keys;
 
@@ -50,7 +50,7 @@ namespace PianoTeacher.Piano
         [SerializeField] private PianoKeyPrefab _keyPrefabs;
         [SerializeField] private float _volume = 1;
         [SerializeField, Range(-3, 3)] private int _octaveOffset = 0;
-        public int OctaveOffset { get { return _octaveOffset; } }
+        public int OctaveOffset => _octaveOffset;
         [SerializeField] private PianoTimbres _timbre;
 
         /// <summary>
