@@ -11,6 +11,7 @@ namespace PianoTeacher.Display
     public class DisplayManager : MonoBehaviour
     {
         public event Action<DisplayNote> OnNoteTriggered;
+        private bool isInitialized;
 
         [Header("Canvas")]
         [SerializeField] private Canvas _noteCanvas;
@@ -43,10 +44,13 @@ namespace PianoTeacher.Display
             _activeNotes = new List<DisplayNote>();
             _noteCanvasRect = _noteCanvas.GetComponent<RectTransform>();
             SetupCanvas(pos, rot, size);
+
+            isInitialized = true;
         }
 
         private void Update()
         {
+            if (!isInitialized) return;
             UpdateDisplayKeys();
         }
 

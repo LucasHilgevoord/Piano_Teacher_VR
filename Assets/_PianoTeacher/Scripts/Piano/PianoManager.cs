@@ -15,6 +15,8 @@ namespace PianoTeacher.Piano
 
     public class PianoManager : MonoBehaviour
     {
+        public event Action PianoInitialized;
+
         [Header("Systems")]
         [SerializeField] private PianoCalibrator _calibrator;
 
@@ -94,6 +96,8 @@ namespace PianoTeacher.Piano
             CreateKeys();
             _pianoParent.position = _startingPos;
             SetPianoRotation();
+
+            PianoInitialized?.Invoke();
         }
 
         /// <summary>

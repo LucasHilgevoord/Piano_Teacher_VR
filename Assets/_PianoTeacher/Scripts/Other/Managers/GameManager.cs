@@ -27,8 +27,18 @@ namespace PianoTeacher
         // Start is called before the first frame update
         void Start()
         {
+            _pianoManager.PianoInitialized += OnPianoInitialized;
+            _pianoManager.Initialize();
+        }
+
+        /// <summary>
+        /// Method after the piano has been created so we can initialize the display
+        /// </summary>
+        private void OnPianoInitialized()
+        {
+            _pianoManager.PianoInitialized -= OnPianoInitialized;
+
             PianoManager p = _pianoManager;
-            p.Initialize();
             _displayManager.Initialize(p.GetFirstKeyPosition(), p.GetPianoRotation(), p.GetPianoSize());
         }
 

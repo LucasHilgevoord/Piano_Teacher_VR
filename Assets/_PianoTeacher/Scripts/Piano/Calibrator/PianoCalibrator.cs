@@ -7,7 +7,7 @@ namespace PianoTeacher.Piano
 {
     public class PianoCalibrator : MonoBehaviour
     {
-        [Header("Testing")]
+        [Header("Markers")]
         [SerializeField] private Transform _leftMarker;
         [SerializeField] private Transform _rightMarker;
 
@@ -31,8 +31,8 @@ namespace PianoTeacher.Piano
             _keyOffset = offset;
 
             // Testing
-            SetMarkerPos(_leftMarker);
-            SetMarkerPos(_rightMarker);
+            //SetMarkerPos(_leftMarker);
+            //SetMarkerPos(_rightMarker);
         }
 
         /// <summary>
