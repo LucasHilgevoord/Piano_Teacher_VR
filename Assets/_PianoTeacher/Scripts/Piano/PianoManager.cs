@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using PianoTeacher.Piano.Keys;
 using System;
@@ -15,10 +14,10 @@ namespace PianoTeacher.Piano
 
     public class PianoManager : MonoBehaviour
     {
-        public event Action PianoInitialized;
+        public event Action IsInitialized;
 
         [Header("Systems")]
-        [SerializeField] private PianoCalibrator _calibrator;
+        public PianoCalibrator Calibrator;
 
         [Header("Layout")]
         [SerializeField] private int _totalKeyCount;
@@ -48,11 +47,10 @@ namespace PianoTeacher.Piano
         };
 
         [Header("Customization")]
-        [SerializeField] private bool _useCalibrator = true;
         [SerializeField] private PianoKeyPrefab _keyPrefabs;
-        [SerializeField] private float _volume = 1;
         [SerializeField, Range(-3, 3)] private int _octaveOffset = 0;
         public int OctaveOffset => _octaveOffset;
+        [SerializeField] private float _volume = 1;
         [SerializeField] private PianoTimbres _timbre;
 
         /// <summary>
@@ -60,14 +58,8 @@ namespace PianoTeacher.Piano
         /// </summary>
         internal void Initialize()
         {
-            if (_useCalibrator)
-            {
-                PianoCalibrator.CalibrationComplete += OnCalibrationComplete;
-                _calibrator.Initialize(GetKeyCount(), _keyOffset);
-            } else
-            {
-                CreatePiano();
-            }
+            PianoCalibrator.CalibrationComplete += OnCalibrationComplete;
+            Calibrator.Initialize(GetKeyCount(), _keyOffset);
         }
 
         /// <summary>
@@ -97,7 +89,7 @@ namespace PianoTeacher.Piano
             _pianoParent.position = _startingPos;
             SetPianoRotation();
 
-            PianoInitialized?.Invoke();
+            IsInitialized?.Invoke();
         }
 
         /// <summary>
@@ -269,12 +261,12 @@ namespace PianoTeacher.Piano
         /// Get the most left and top position of the first key
         /// </summary>
         /// <returns></returns>
-        internal Vector3 GetFirstKeyPosition() 
+        internal Vector3 GetFirstKeyWorldPosition() 
         {
             Vector3 pos = _pianoParent.position;
-            double angle = (-_pianoParent.eulerAngles.y + 90) * Math.PI / 180;
-            pos.x = (float)(_whiteKeyScale.z * Math.Cos(angle)) - (_whiteKeyScale.x / 2);
-            pos.z = (float)(_whiteKeyScale.z * Math.Sin(angle));
+            double angle = ((-_pianoParent.eulerAngles.y + 90) * Math.PI) / 180;
+            pos.x += (float)(_whiteKeyScale.z * Math.Cos(angle)) - (_whiteKeyScale.x / 2);
+            pos.z += (float)(_whiteKeyScale.z * Math.Sin(angle));
             return pos;
         }
 

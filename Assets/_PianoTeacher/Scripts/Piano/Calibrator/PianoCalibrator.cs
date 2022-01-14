@@ -1,15 +1,18 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace PianoTeacher.Piano
 {
+    public enum Markers
+    {
+        Left = 0,
+        Right = 1
+    }
+
     public class PianoCalibrator : MonoBehaviour
     {
-        [Header("Markers")]
-        [SerializeField] private Transform _leftMarker;
-        [SerializeField] private Transform _rightMarker;
+        private bool initialized;
+        internal bool IsInitialized => initialized;
 
         [Header("Calibration")]
         private bool _markedLeft, _markedRight;
@@ -30,39 +33,37 @@ namespace PianoTeacher.Piano
             _keyCount = keyCount;
             _keyOffset = offset;
 
-            // Testing
-            //SetMarkerPos(_leftMarker);
-            //SetMarkerPos(_rightMarker);
+            initialized = true;
         }
 
         /// <summary>
         /// Method to set the positions of the keys in virtual space
         /// </summary>
         /// <param name="marker">Marker that will be set</param>
-        public void SetMarkerPos(Transform marker)
+        internal void SetMarkerPos(Transform marker, Markers type)
         {
-            if (marker == _leftMarker)
+            if (type == Markers.Left)
             {
                 Debug.Log("Calibrator: Left marker has been set");
                 _leftMarkedPos = marker.position;
             }
-            else
+            else if (type == Markers.Right)
             {
                 Debug.Log("Calibrator: Right marker has been set");
                 _rightMarkedPos = marker.position;
             }
 
-            OnMarkerSet(marker);
+            OnMarkerSet(type);
         }
 
         /// <summary>
         /// Method which checks if both markers have been set and if calibration can begin
         /// </summary>
         /// <param name="marker">Marker that has been set</param>
-        private void OnMarkerSet(Transform marker)
+        private void OnMarkerSet(Markers type)
         {
-            if (marker == _leftMarker) { _markedLeft = true; }
-            if (marker == _rightMarker) { _markedRight = true; }
+            if (type == Markers.Left) { _markedLeft = true; }
+            if (type == Markers.Right) { _markedRight = true; }
 
             if (_markedLeft && _markedRight)
             {

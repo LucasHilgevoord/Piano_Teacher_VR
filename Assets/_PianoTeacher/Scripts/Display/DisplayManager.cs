@@ -1,15 +1,13 @@
 using MidiPlayerTK;
-using PianoTeacher.Piano;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace PianoTeacher.Display
 {
     public class DisplayManager : MonoBehaviour
     {
+        public event Action IsInitialized;
         public event Action<DisplayNote> OnNoteTriggered;
         private bool isInitialized;
 

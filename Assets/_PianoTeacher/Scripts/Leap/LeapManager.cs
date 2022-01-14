@@ -1,19 +1,23 @@
 using Leap.Unity;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace PianoTeacher.Leap
 {
     public class LeapManager : MonoBehaviour
     {
-        public event Action GestureRecognized;
-        [SerializeField] private CapsuleHand leftHand, rightHand;
+        public LeapHand LeftHand, RightHand;
 
-        private void OnGestureRecognized()
+        internal bool IsTracked(LeapHand hand) { return hand.gameObject.activeInHierarchy; }
+
+        /// <summary>
+        /// Get the position of the tip from the index finger
+        /// </summary>
+        /// <param name="hand"></param>
+        /// <returns></returns>
+        internal Vector3 GetIndexFingerTip(LeapHand hand)
         {
-
+            if (!IsTracked(hand)) { return Vector3.zero; }
+            return Hands.GetIndex(hand.HandModelBase.GetLeapHand()).TipPosition.ToVector3();
         }
     }
 }

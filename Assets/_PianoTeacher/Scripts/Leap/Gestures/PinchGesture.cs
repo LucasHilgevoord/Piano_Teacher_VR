@@ -1,23 +1,36 @@
 using Leap;
 using Leap.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PinchGesture : Gesture
+namespace PianoTeacher.Leap
 {
-    private float _pinchDistance = .015f;
-
-    protected override void CheckGestureState()
+    public class PinchGesture : Gesture
     {
-        base.CheckGestureState();
-        UpdateGesturestate(GetDistance() < _pinchDistance);
-    }
+        [Header("Pinch Gesture")]
+        [SerializeField] private Finger.FingerType _pinchFinger = Finger.FingerType.TYPE_INDEX;
+        [SerializeField] private float _pinchDistance = .02f;
 
-    private float GetDistance()
-    {
-        var thumbPos = Hands.GetThumb(_hand).TipPosition.ToVector3();
-        var indexPos = Hands.GetIndex(_hand).TipPosition.ToVector3();
-        return Vector3.Distance(thumbPos, indexPos);
+        protected override void Start()
+        {
+            base.Start();
+            _gesture = Gestures.Pinch;
+        }
+
+        protected override void CheckGestureState()
+        {
+            base.CheckGestureState();
+            UpdateGesturestate(GetDistance() < _pinchDistance);
+        }
+
+        /// <summary>
+        /// Calculate the distance of the thumb and index finger
+        /// </summary>
+        /// <returns></returns>
+        private float GetDistance()
+        {
+            Vector3 thumbPos = Hands.GetThumb(_hand).TipPosition.ToVector3();
+            Vector3 indexPos = _hand.Fingers[(int)_pinchFinger].TipPosition.ToVector3();
+            return Vector3.Distance(thumbPos, indexPos);
+        }
     }
 }

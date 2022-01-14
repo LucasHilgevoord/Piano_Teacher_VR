@@ -1,5 +1,6 @@
 using MidiPlayerTK;
 using PianoTeacher.Display;
+using PianoTeacher.Midi;
 using PianoTeacher.Piano;
 using PianoTeacher.Piano.Keys;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace PianoTeacher
     {
         [SerializeField] private PianoManager _pianoManager;
         [SerializeField] private MidiController _midiController;
+        [SerializeField] private CalibrationManager _calibrationManager;
 
         [Header("Modes")]
         [SerializeField] private DisplayManager _displayManager;
@@ -23,12 +25,24 @@ namespace PianoTeacher
             _midiController.OnNoteCreated += OnNoteCreated;
             _displayManager.OnNoteTriggered += TriggerNote;
         }
+        
+        private void OnDestroy()
+        {
+            _midiController.OnNoteCreated -= OnNoteCreated;
+            _displayManager.OnNoteTriggered -= TriggerNote;
+        }
 
         // Start is called before the first frame update
         void Start()
         {
-            _pianoManager.PianoInitialized += OnPianoInitialized;
+            _pianoManager.IsInitialized += OnPianoInitialized;
             _pianoManager.Initialize();
+
+            // Check if we use the calibrator is succesfully initialized
+            if (_pianoManager.Calibrator.IsInitialized)
+            {
+                _calibrationManager.Initialize();
+            }
         }
 
         /// <summary>
@@ -36,10 +50,20 @@ namespace PianoTeacher
         /// </summary>
         private void OnPianoInitialized()
         {
-            _pianoManager.PianoInitialized -= OnPianoInitialized;
+            _pianoManager.IsInitialized -= OnPianoInitialized;
 
+            _displayManager.IsInitialized += OnDisplayInitialized;
             PianoManager p = _pianoManager;
-            _displayManager.Initialize(p.GetFirstKeyPosition(), p.GetPianoRotation(), p.GetPianoSize());
+            _displayManager.Initialize(p.GetFirstKeyWorldPosition(), p.GetPianoRotation(), p.GetPianoSize());
+        }
+
+        /// <summary>
+        /// Method after the display has been initialized
+        /// </summary>
+        private void OnDisplayInitialized()
+        {
+            _displayManager.IsInitialized -= OnDisplayInitialized;
+            _midiController.Initialize();
         }
 
         /// <summary>
@@ -48,9 +72,6 @@ namespace PianoTeacher
         /// <param name="note">Created note</param>
         private void OnNoteCreated(MPTKEvent note)
         {
-            // Testing
-            //_midiController.PlayNote(note);
-
             int octaveOffset = _pianoManager.OctaveOffset * _pianoManager.KeyLayout.Length;
             Key[] keys = _pianoManager.GetKeys();
             if (note.Value + octaveOffset > keys.Length)
@@ -61,7 +82,7 @@ namespace PianoTeacher
 
             Debug.Log("NOTE CREATED ON KEY: [" + note.Value + "] | " + note);
             Key key = keys[note.Value + octaveOffset];
-            _displayManager.CreateDisplayKey(note, key.transform.localScale.x, key.transform.position.x);
+            _displayManager.CreateDisplayKey(note, key.transform.localScale.x, key.transform.localPosition.x);
         }
 
         /// <summary>
