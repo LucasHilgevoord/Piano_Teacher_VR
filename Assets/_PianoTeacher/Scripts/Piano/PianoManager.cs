@@ -265,8 +265,8 @@ namespace PianoTeacher.Piano
         {
             Vector3 pos = _pianoParent.position;
             double angle = ((-_pianoParent.eulerAngles.y + 90) * Math.PI) / 180;
-            pos.x += (float)(_whiteKeyScale.z * Math.Cos(angle)) - (_whiteKeyScale.x / 2);
-            pos.z += (float)(_whiteKeyScale.z * Math.Sin(angle));
+            pos.x += (float)(_whiteKeyScale.z * Math.Cos(angle));
+            pos.z += (float)(_whiteKeyScale.z * Math.Sin(angle)) + (_whiteKeyScale.x / 2);
             return pos;
         }
 

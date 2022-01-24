@@ -1502,7 +1502,7 @@ namespace MidiPlayerTK
 #endif
                                     // Send to the midi reader
                                     if (OnEventNotesMidi != null)
-                                        OnEventNotesMidi.Invoke(midievents);
+                                        OnEventNotesMidi?.Invoke(midievents);
                                 }
                             }
                         }

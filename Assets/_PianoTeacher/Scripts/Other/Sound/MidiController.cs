@@ -38,7 +38,7 @@ namespace PianoTeacher.Midi
         internal void Initialize()
         {
             _midiStreamPlayer.MPTK_Volume = _midiVolume;
-            if (_playOnStart) { _midiFilePlayer.MPTK_Play(); }
+            if (_playOnStart) { _midiFilePlayer.MPTK_RePlay(); }
         }
 
         /// <summary>

@@ -53,6 +53,7 @@
     <string>Faure - Requiem</string>
     <string>Final Fantasy - Village</string>
     <string>Fire Emblem 3 - Theme</string>
+    <string>fur_elise</string>
     <string>Genesis - OneForTheVine</string>
     <string>Higelin Jacques - Champagne</string>
     <string>John Lee Hooker - Boom Boom Boom</string>
@@ -99,6 +100,7 @@
     <string>Tetris2</string>
     <string>The Christmas Song</string>
     <string>To Make the End of Battle</string>
+    <string>VaderJacob</string>
     <string>Van Morrison - Moondance</string>
     <string>Van Morrison - Wild Nights</string>
     <string>Void World's 2nd Half</string>

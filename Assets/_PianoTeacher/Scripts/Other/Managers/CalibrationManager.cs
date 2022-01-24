@@ -21,7 +21,10 @@ namespace PianoTeacher.Piano
         [SerializeField] PianoCalibrator _calibrator;
         [SerializeField] private Transform _leftMarker, _rightMarker;
         private bool _isCalibrating;
-        private bool _setLeftMarker, _setRightMarker;
+        private bool _setLeftMarker = false;
+        private bool _setRightMarker = false;
+
+        private bool _isMarking;
 
         /// <summary>
         /// Initialize the calibration manager
@@ -136,8 +139,9 @@ namespace PianoTeacher.Piano
         /// </summary>
         private void SetCalibrationMarker(Gestures gesture)
         {
-            if (gesture != Gestures.Pinch) return;
+            if (gesture != Gestures.Pinch || _isMarking) return;
 
+            _isMarking = true;
             if (!_setLeftMarker)
             {
                 Debug.Log("Set Left marker");
@@ -169,6 +173,8 @@ namespace PianoTeacher.Piano
                 _worldUIHandler.ToggleCalibrating(false);
                 NextCalibrationStep();
             }
+
+            _isMarking = false;
         }
     }
 }
